@@ -27,3 +27,30 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class Vagas(models.Model):
+    choices_experiencia = (
+        ('J', 'Junior'),
+        ('P', 'Pleno'),
+        ('S', 'Senior')
+    )
+
+    choices_status = (
+        ('I', 'Interesse'),
+        ('C', 'Curriculo Enviado'),
+        ('E', 'Entrevista'),
+        ('D', 'Desafio Técnico'),
+        ('F', 'Finalizado')
+    )
+
+    empresa = models.ForeignKey(Empresa, on_delete= models.DO_NOTHING)
+    titulo = models.CharField(max_length=30)
+    nivel_experiencia = models.CharField(max_length=2, choices=choices_experiencia)
+    data_final = models.DateField()
+    status = models.CharField(max_length=30, choices=choices_status)
+    tecnologias_dominadas = models.ManyToManyField(Tecnologias)
+    tecnologias_estudar = models.ManyToManyField(Tecnologias, related_name='Estudar')
+
+    def __str__(self):
+        return self.titulo
