@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Tecnologias, Empresa
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.messages import constants
 
 # Create your views here.
 
@@ -18,5 +21,22 @@ def nova_empresa(request):
         endereco = request.POST.get('endereco')
         nicho = request.POST.get('nicho')
         caracteristicas = request.POST.get('caracteristicas')
-        
+        tecnologias = request.POST.getlist('tecnologias')
+        logo = request.FILES.get('logo')
+
+        if len(nome.strip()) == 0  or len(email.strip()) == 0 or len(cidade.strip()) == 0 or len(endereco.strip()) == 0:
+            messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+            return redirect('/nova_empresa')
+
+        if logo.size > 100_000_000:
+            messages.add_message(request, constants.ERROR, 'Sua logo não pode possuir mais que 10MB')
+            return redirect('/nova_empresa')
+
+        if nicho not in [i[0] for i in Empresa.choices_nicho_mercado]:
+            messages.add_message(request, constants.ERROR, 'Nicho de mercado inválido')
+            return redirect('/nova_empresa')
+
         return HttpResponse('Teste')
+
+
+    
