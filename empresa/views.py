@@ -36,7 +36,21 @@ def nova_empresa(request):
             messages.add_message(request, constants.ERROR, 'Nicho de mercado inválido')
             return redirect('/nova_empresa')
 
-        return HttpResponse('Teste')
+        empresa  = Empresa(logo = logo,
+                        nome = nome,
+                        email = email,
+                        cidade = cidade,
+                        endereco = endereco,
+                        caracteristica_empresa = caracteristicas,
+                        nicho_mercado = nicho)
+
+        empresa.save()
+        empresa.tecnologia.add(*tecnologias)
+        empresa.save()
+
+        messages.add_message(request, constants.SUCCESS, 'Empresa cadastrada com sucesso')
+
+        return redirect("/nova_empresa")
 
 
     
