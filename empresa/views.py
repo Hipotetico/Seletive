@@ -53,4 +53,5 @@ def nova_empresa(request):
         return redirect("/nova_empresa")
 
 
-    
+def empresas(request):
+    return HttpResponse('Listagem de empresas')
