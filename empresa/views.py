@@ -54,4 +54,7 @@ def nova_empresa(request):
 
 
 def empresas(request):
-    return HttpResponse('Listagem de empresas')
+
+    empresas = Empresa.objects.all()
+
+    return render(request, "empresas.html", {'empresas': empresas})
