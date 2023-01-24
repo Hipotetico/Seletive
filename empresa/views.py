@@ -54,10 +54,10 @@ def nova_empresa(request):
 
 
 def empresas(request):
-
     empresas = Empresa.objects.all()
 
     return render(request, "empresas.html", {'empresas': empresas})
+
 
 def excluir_empresa(request, id): 
     empresa = Empresa.objects.get(id=id)
