@@ -54,9 +54,18 @@ def nova_empresa(request):
 
 
 def empresas(request):
-    empresas = Empresa.objects.all()
+    tecnologias_filtrar = request.GET.get('tecnologias')
+    nome_filtrar = request.GET.get('nome')
 
-    return render(request, "empresas.html", {'empresas': empresas})
+    empresas = Empresa.objects.all()
+    tecnologias = Tecnologias.objects.all()
+
+    if tecnologias_filtrar:
+        empresas = empresas.filter(tecnologias=tecnologias_filtrar)
+    if nome_filtrar:
+        empresas = empresas.filter(nome=nome_filtrar)
+
+    return render(request, "empresas.html", {'empresas': empresas ,'tecnologias': tecnologias})
 
 
 def excluir_empresa(request, id): 
