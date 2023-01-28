@@ -61,9 +61,11 @@ def empresas(request):
     tecnologias = Tecnologias.objects.all()
 
     if tecnologias_filtrar:
-        empresas = empresas.filter(tecnologias=tecnologias_filtrar)
+        empresas = empresas.filter(tecnologia = tecnologias_filtrar)
+
     if nome_filtrar:
-        empresas = empresas.filter(nome=nome_filtrar)
+        empresas = empresas.filter(nome__icontains = nome_filtrar)
+
 
     return render(request, "empresas.html", {'empresas': empresas ,'tecnologias': tecnologias})
 
