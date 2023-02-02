@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Tecnologias, Empresa
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -76,3 +76,7 @@ def excluir_empresa(request, id):
     messages.add_message(request, constants.SUCCESS, 'Empresa deletada com sucesso')
 
     return redirect("/empresas")
+
+def empresa(request, id):
+    empresa = get_object_or_404(Empresa, id=id)
+    return render(request, 'empresa.html')
