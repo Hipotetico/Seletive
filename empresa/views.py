@@ -79,4 +79,4 @@ def excluir_empresa(request, id):
 
 def empresa(request, id):
     empresa = get_object_or_404(Empresa, id=id)
-    return render(request, 'empresa.html')
+    return render(request, 'empresa.html', {'empresa': empresa})
