@@ -64,7 +64,7 @@
 
         <hr>
 
-        <a class="btn btn-lg btn-orange">Nova vaga</a>
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-lg btn-orange">Nova vaga</a>
 
         <div class="row">
             vagas
@@ -141,6 +141,9 @@
                         <div class="col-md">
                             <label>Empresa:</label>
                             <select name="empresa" class="form-select">
+                                {%for emp in empresas%}
+                                    <option {%if emp.id == empresa.id %} selected {%endif%} value="{{emp.id}}">{{emp}}</option>
+                                {%endfor%}
                                                                                                                                  
                             </select>
                         </div>
