@@ -57,7 +57,7 @@ class Vagas(models.Model):
     tecnologias_estudar = models.ManyToManyField(Tecnologias, related_name='Estudar')
 
     def progresso(self):
-        x = [((i+1)*20,j[0]) for i, j in enumerate(self.choices_status)]
+        x = [((i+1)*(100/(len(self.choices_status))),j[0]) for i, j in enumerate(self.choices_status)]
         x = list(filter(lambda x: x[1] == self.status, x))[0][0]
         return x
 
