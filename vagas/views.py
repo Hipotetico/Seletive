@@ -43,7 +43,8 @@ def nova_vaga(request):
     
 def vaga(request, id):
     vaga = get_object_or_404(Vagas, id=id)
-    return render(request, 'vaga.html', {'vaga': vaga})
+    tarefas = Tarefa.objects.filter(vaga=vaga).filter(realizada=False)
+    return render(request, 'vaga.html', {'vaga': vaga, 'tarefas': tarefas})
 
 def nova_tarefa(request, id_vaga):
     try:
@@ -64,3 +65,17 @@ def nova_tarefa(request, id_vaga):
     except:
         messages.add_message(request, constants.ERROR, 'Erro interno no sistema')
         return redirect(f'/vagas/vaga/{id_vaga}')
+    
+def realiza_tarefa(request, id_tarefa):
+    tarefa_list = Tarefa.objects.filter(id=id_tarefa).filter(realizada=False)
+    
+    if not tarefa_list.exists():
+        messages.add_message(request, constants.ERROR, 'Tarefa não existe ou já foi finalizada')
+        return redirect(f'/home/empresas')
+    
+    tarefa = tarefa_list.first()
+    tarefa.realizada = True
+
+    tarefa.save()
+    messages.add_message(request, constants.SUCCESS, 'Tarefa finalizada com sucesso')
+    return redirect(f'/vagas/vaga/{tarefa.vaga_id}')
